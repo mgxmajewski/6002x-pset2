@@ -82,7 +82,16 @@ class RectangularRoom(object):
         width: an integer > 0
         height: an integer > 0
         """
-        raise NotImplementedError
+        self.width = width
+        if width <= 0:
+            raise ValueError
+        self.height = height
+        if height <= 0:
+            raise ValueError
+        self.size = width * height
+        self.cleaned = set()
+
+
     
     def cleanTileAtPosition(self, pos):
         """
@@ -92,7 +101,11 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        raise NotImplementedError
+        from math import floor
+        x = floor(pos.getX())
+        y = floor(pos.getY())
+        self.cleaned.add((x,y))
+
 
     def isTileCleaned(self, m, n):
         """
@@ -104,7 +117,7 @@ class RectangularRoom(object):
         n: an integer
         returns: True if (m, n) is cleaned, False otherwise
         """
-        raise NotImplementedError
+        return (m, n) in self.cleaned
     
     def getNumTiles(self):
         """
@@ -112,7 +125,7 @@ class RectangularRoom(object):
 
         returns: an integer
         """
-        raise NotImplementedError
+        return self.size
 
     def getNumCleanedTiles(self):
         """
@@ -120,7 +133,7 @@ class RectangularRoom(object):
 
         returns: an integer
         """
-        raise NotImplementedError
+        return len(self.cleaned)
 
     def getRandomPosition(self):
         """
@@ -128,7 +141,10 @@ class RectangularRoom(object):
 
         returns: a Position object.
         """
-        raise NotImplementedError
+        from random import random
+        x = self.width * random()
+        y = self.height * random()
+        return Position(x, y)
 
     def isPositionInRoom(self, pos):
         """
@@ -137,7 +153,7 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if pos is in the room, False otherwise.
         """
-        raise NotImplementedError
+        return (0 <= pos.getX() < self.width) and (0 <= pos.getY() < self.height)
 
 
 # === Problem 2
